@@ -1,0 +1,10 @@
+ticker,name,sector,spot_price,dividend_yield,market_cap,beta
+BAC,Bank of America Corporation,Financial,52.02,2.15,379875819520,1.295
+JPM,JPMorgan Chase & Co.,Financial,301.04,1.99,819509854208,1.066
+WFC,Wells Fargo & Company,Financial,88.05,2.04,276396408832,1.088
+MRK,Merck & Company Inc.,Healthcare,107.4,3.17,268261933056,0.298
+PFE,Pfizer Inc.,Healthcare,25.88,6.65,147146113024,0.433
+UNH,UnitedHealth Group Inc.,Healthcare,351.64,2.51,318529110016,0.425
+AAPL,Apple Inc.,Technology,255.41,0.41,3774028185600,1.093
+MSFT,Microsoft Corporation,Technology,470.28,0.77,3495669530624,1.073
+NVDA,NVIDIA Corporation,Technology,186.47,0.02,4539985428480,2.314
