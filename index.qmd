@@ -294,6 +294,53 @@ print(display_df.to_string(index=False))
 
 This subsection provides a comprehensive exploration of our dataset before applying the Black-Scholes model.
 
+### Data Source and Study Period
+
+```{python}
+#| label: eda-data-source
+#| echo: true
+
+print("=" * 80)
+print("DATA SOURCE DETAILS")
+print("=" * 80)
+
+# Extract date range from stock history
+start_date = stock_history['date'].min()
+end_date = stock_history['date'].max()
+trading_days = stock_history['date'].nunique()
+
+# Extract options info
+exp_date = calls_df['expiration'].iloc[0] if 'expiration' in calls_df.columns else 'N/A'
+days_to_exp = calls_df['days_to_expiry'].iloc[0] if 'days_to_expiry' in calls_df.columns else 'N/A'
+
+print(f"""
+📁 DATA FILES:
+   • stock_history.csv   - Daily stock prices (OHLCV)
+   • stock_info.csv      - Stock metadata (spot price, dividend yield)
+   • options_calls.csv   - Call option contracts
+   • options_puts.csv    - Put option contracts
+   • risk_free_rate.csv  - Treasury rate data
+
+📊 DATA SOURCE:
+   • Provider:           Yahoo Finance API
+   • Stock Data:         Historical daily prices
+   • Options Data:       Real-time option chains
+   • Risk-Free Rate:     U.S. Treasury 3-month rate
+
+📅 STUDY PERIOD:
+   • Start Date:         {start_date.strftime('%B %d, %Y') if hasattr(start_date, 'strftime') else start_date}
+   • End Date:           {end_date.strftime('%B %d, %Y') if hasattr(end_date, 'strftime') else end_date}
+   • Trading Days:       {trading_days} days
+   • Year:               {end_date.year if hasattr(end_date, 'year') else '2026'}
+
+📋 OPTIONS DETAILS:
+   • Expiration Date:    {exp_date}
+   • Days to Expiry:     {days_to_exp} days
+   • Option Style:       American (traded on US exchanges)
+   • Contract Size:      100 shares per contract
+""")
+```
+
 ### Stock Data Summary Statistics
 
 ```{python}
