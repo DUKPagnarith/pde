@@ -290,6 +290,255 @@ print(display_df.to_string(index=False))
 
 ---
 
+## Exploratory Data Analysis
+
+This subsection provides a comprehensive exploration of our dataset before applying the Black-Scholes model.
+
+### Stock Data Summary Statistics
+
+```{python}
+#| label: eda-stock-stats
+#| echo: true
+
+print("=" * 80)
+print("STOCK PRICE SUMMARY STATISTICS")
+print("=" * 80)
+
+# Calculate summary stats per stock
+stock_stats = []
+for ticker in stock_info['ticker']:
+    hist = stock_history[stock_history['ticker'] == ticker]['close']
+    info = stock_info[stock_info['ticker'] == ticker].iloc[0]
+    
+    stock_stats.append({
+        'Ticker': ticker,
+        'Sector': info['sector'],
+        'Current Price': f"${info['spot_price']:.2f}",
+        'Mean': f"${hist.mean():.2f}",
+        'Std Dev': f"${hist.std():.2f}",
+        'Min': f"${hist.min():.2f}",
+        'Max': f"${hist.max():.2f}",
+        'Volatility': f"{(hist.std()/hist.mean())*100:.1f}%"
+    })
+
+stock_stats_df = pd.DataFrame(stock_stats)
+print(stock_stats_df.to_string(index=False))
+```
+
+### Options Data Summary
+
+```{python}
+#| label: eda-options-stats
+#| echo: true
+
+print("\n" + "=" * 80)
+print("OPTIONS DATA SUMMARY")
+print("=" * 80)
+
+print(f"\n📊 CALL OPTIONS ({len(calls_df)} contracts):")
+print("-" * 60)
+print(f"  Strike Price:    Min=${calls_df['strike'].min():.2f}, Max=${calls_df['strike'].max():.2f}")
+print(f"  Option Price:    Min=${calls_df['lastPrice'].min():.2f}, Max=${calls_df['lastPrice'].max():.2f}, Mean=${calls_df['lastPrice'].mean():.2f}")
+print(f"  Implied Vol:     Min={calls_df['impliedVolatility'].min():.4f}, Max={calls_df['impliedVolatility'].max():.4f}")
+print(f"  Volume:          Min={calls_df['volume'].min()}, Max={calls_df['volume'].max()}")
+print(f"  Days to Expiry:  {calls_df['days_to_expiry'].iloc[0]} days")
+
+print(f"\n📊 PUT OPTIONS ({len(puts_df)} contracts):")
+print("-" * 60)
+print(f"  Strike Price:    Min=${puts_df['strike'].min():.2f}, Max=${puts_df['strike'].max():.2f}")
+print(f"  Option Price:    Min=${puts_df['lastPrice'].min():.2f}, Max=${puts_df['lastPrice'].max():.2f}, Mean=${puts_df['lastPrice'].mean():.2f}")
+print(f"  Implied Vol:     Min={puts_df['impliedVolatility'].min():.4f}, Max={puts_df['impliedVolatility'].max():.4f}")
+print(f"  Volume:          Min={puts_df['volume'].min()}, Max={puts_df['volume'].max()}")
+print(f"  Days to Expiry:  {puts_df['days_to_expiry'].iloc[0]} days")
+```
+
+### Distribution of Option Prices
+
+```{python}
+#| label: fig-eda-price-dist
+#| fig-cap: "Distribution of Option Prices by Type"
+#| echo: true
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# Call prices distribution
+ax1 = axes[0]
+ax1.hist(calls_df['lastPrice'], bins=30, color='#3498db', edgecolor='black', alpha=0.7)
+ax1.axvline(calls_df['lastPrice'].mean(), color='red', linestyle='--', linewidth=2, label=f"Mean: ${calls_df['lastPrice'].mean():.2f}")
+ax1.axvline(calls_df['lastPrice'].median(), color='green', linestyle='--', linewidth=2, label=f"Median: ${calls_df['lastPrice'].median():.2f}")
+ax1.set_xlabel('Option Price ($)', fontsize=11)
+ax1.set_ylabel('Frequency', fontsize=11)
+ax1.set_title('Call Option Price Distribution', fontsize=13, fontweight='bold')
+ax1.legend()
+ax1.grid(True, alpha=0.3)
+
+# Put prices distribution
+ax2 = axes[1]
+ax2.hist(puts_df['lastPrice'], bins=30, color='#e74c3c', edgecolor='black', alpha=0.7)
+ax2.axvline(puts_df['lastPrice'].mean(), color='blue', linestyle='--', linewidth=2, label=f"Mean: ${puts_df['lastPrice'].mean():.2f}")
+ax2.axvline(puts_df['lastPrice'].median(), color='green', linestyle='--', linewidth=2, label=f"Median: ${puts_df['lastPrice'].median():.2f}")
+ax2.set_xlabel('Option Price ($)', fontsize=11)
+ax2.set_ylabel('Frequency', fontsize=11)
+ax2.set_title('Put Option Price Distribution', fontsize=13, fontweight='bold')
+ax2.legend()
+ax2.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+print("\n📈 Key Observations:")
+print(f"  • Call options are right-skewed (many low-priced OTM calls)")
+print(f"  • Put options show similar right-skewed distribution")
+print(f"  • Large gap between mean and median indicates outliers (deep ITM options)")
+```
+
+### Implied Volatility Distribution
+
+```{python}
+#| label: fig-eda-iv-dist
+#| fig-cap: "Distribution of Implied Volatility"
+#| echo: true
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# Call IV distribution
+ax1 = axes[0]
+valid_iv_calls = calls_df[calls_df['impliedVolatility'] > 0.001]['impliedVolatility']
+ax1.hist(valid_iv_calls, bins=30, color='#9b59b6', edgecolor='black', alpha=0.7)
+ax1.axvline(valid_iv_calls.mean(), color='red', linestyle='--', linewidth=2, label=f"Mean: {valid_iv_calls.mean():.2%}")
+ax1.set_xlabel('Implied Volatility', fontsize=11)
+ax1.set_ylabel('Frequency', fontsize=11)
+ax1.set_title('Call Options: IV Distribution', fontsize=13, fontweight='bold')
+ax1.legend()
+ax1.grid(True, alpha=0.3)
+
+# Put IV distribution
+ax2 = axes[1]
+valid_iv_puts = puts_df[puts_df['impliedVolatility'] > 0.001]['impliedVolatility']
+ax2.hist(valid_iv_puts, bins=30, color='#1abc9c', edgecolor='black', alpha=0.7)
+ax2.axvline(valid_iv_puts.mean(), color='red', linestyle='--', linewidth=2, label=f"Mean: {valid_iv_puts.mean():.2%}")
+ax2.set_xlabel('Implied Volatility', fontsize=11)
+ax2.set_ylabel('Frequency', fontsize=11)
+ax2.set_title('Put Options: IV Distribution', fontsize=13, fontweight='bold')
+ax2.legend()
+ax2.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# Count problematic IVs
+low_iv_calls = (calls_df['impliedVolatility'] < 0.01).sum()
+low_iv_puts = (puts_df['impliedVolatility'] < 0.01).sum()
+print(f"\n⚠️  DATA QUALITY NOTE:")
+print(f"  • Call options with IV < 1% (placeholder values): {low_iv_calls} ({low_iv_calls/len(calls_df)*100:.1f}%)")
+print(f"  • Put options with IV < 1% (placeholder values): {low_iv_puts} ({low_iv_puts/len(puts_df)*100:.1f}%)")
+print(f"  • These placeholder IVs will cause large BS pricing errors")
+```
+
+### Options by Strike Price and Moneyness
+
+```{python}
+#| label: fig-eda-moneyness
+#| fig-cap: "Option Contracts by Moneyness"
+#| echo: true
+
+# Calculate moneyness for each option
+for ticker in stock_info['ticker'].unique():
+    spot = stock_info[stock_info['ticker'] == ticker]['spot_price'].values[0]
+    calls_df.loc[calls_df['ticker'] == ticker, 'moneyness'] = calls_df.loc[calls_df['ticker'] == ticker, 'strike'] / spot
+    puts_df.loc[puts_df['ticker'] == ticker, 'moneyness'] = puts_df.loc[puts_df['ticker'] == ticker, 'strike'] / spot
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# Call moneyness
+ax1 = axes[0]
+ax1.hist(calls_df['moneyness'], bins=25, color='#3498db', edgecolor='black', alpha=0.7)
+ax1.axvline(x=1.0, color='red', linestyle='--', linewidth=2, label='ATM (K=S)')
+ax1.set_xlabel('Moneyness (K/S)', fontsize=11)
+ax1.set_ylabel('Number of Contracts', fontsize=11)
+ax1.set_title('Call Options: Moneyness Distribution', fontsize=13, fontweight='bold')
+ax1.legend()
+ax1.grid(True, alpha=0.3)
+
+# Put moneyness
+ax2 = axes[1]
+ax2.hist(puts_df['moneyness'], bins=25, color='#e74c3c', edgecolor='black', alpha=0.7)
+ax2.axvline(x=1.0, color='red', linestyle='--', linewidth=2, label='ATM (K=S)')
+ax2.set_xlabel('Moneyness (K/S)', fontsize=11)
+ax2.set_ylabel('Number of Contracts', fontsize=11)
+ax2.set_title('Put Options: Moneyness Distribution', fontsize=13, fontweight='bold')
+ax2.legend()
+ax2.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# Categorize moneyness
+def categorize(m, opt_type):
+    if opt_type == 'call':
+        if m < 0.95: return 'ITM'
+        elif m <= 1.05: return 'ATM'
+        else: return 'OTM'
+    else:
+        if m > 1.05: return 'ITM'
+        elif m >= 0.95: return 'ATM'
+        else: return 'OTM'
+
+calls_df['money_cat'] = calls_df['moneyness'].apply(lambda x: categorize(x, 'call'))
+puts_df['money_cat'] = puts_df['moneyness'].apply(lambda x: categorize(x, 'put'))
+
+print("\n📊 MONEYNESS BREAKDOWN:")
+print("\nCall Options:")
+print(calls_df['money_cat'].value_counts())
+print("\nPut Options:")
+print(puts_df['money_cat'].value_counts())
+```
+
+### Options by Stock
+
+```{python}
+#| label: fig-eda-by-stock
+#| fig-cap: "Number of Option Contracts per Stock"
+#| echo: true
+
+fig, ax = plt.subplots(figsize=(12, 5))
+
+tickers = stock_info['ticker'].tolist()
+call_counts = [len(calls_df[calls_df['ticker'] == t]) for t in tickers]
+put_counts = [len(puts_df[puts_df['ticker'] == t]) for t in tickers]
+
+x = np.arange(len(tickers))
+width = 0.35
+
+bars1 = ax.bar(x - width/2, call_counts, width, label='Calls', color='#3498db', edgecolor='black')
+bars2 = ax.bar(x + width/2, put_counts, width, label='Puts', color='#e74c3c', edgecolor='black')
+
+ax.set_xlabel('Stock Ticker', fontsize=11)
+ax.set_ylabel('Number of Contracts', fontsize=11)
+ax.set_title('Option Contracts per Stock', fontsize=13, fontweight='bold')
+ax.set_xticks(x)
+ax.set_xticklabels(tickers)
+ax.legend()
+ax.grid(True, alpha=0.3, axis='y')
+
+# Add value labels on bars
+for bar in bars1:
+    height = bar.get_height()
+    ax.annotate(f'{int(height)}', xy=(bar.get_x() + bar.get_width()/2, height),
+                xytext=(0, 3), textcoords="offset points", ha='center', va='bottom', fontsize=9)
+for bar in bars2:
+    height = bar.get_height()
+    ax.annotate(f'{int(height)}', xy=(bar.get_x() + bar.get_width()/2, height),
+                xytext=(0, 3), textcoords="offset points", ha='center', va='bottom', fontsize=9)
+
+plt.tight_layout()
+plt.show()
+
+print(f"\n📊 Total: {len(calls_df)} call options, {len(puts_df)} put options across {len(tickers)} stocks")
+```
+
+---
+
 # Empirical Results
 
 ## Stock Price Trend Analysis
