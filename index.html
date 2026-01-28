@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Financial Mathematics Research">
-<meta name="dcterms.date" content="2026-01-27">
+<meta name="dcterms.date" content="2026-01-28">
 
 <title>Empirical Examination of the Black–Scholes Model</title>
 <style>
@@ -162,25 +162,31 @@ window.Quarto = {
   <li><a href="#interpretation-market-vs-bs-price-scatter" id="toc-interpretation-market-vs-bs-price-scatter" class="nav-link" data-scroll-target="#interpretation-market-vs-bs-price-scatter"><span class="header-section-number">4.6.1</span> Interpretation: Market vs BS Price Scatter</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#summary-and-conclusions" id="toc-summary-and-conclusions" class="nav-link" data-scroll-target="#summary-and-conclusions"><span class="header-section-number">5</span> Summary and Conclusions</a>
+  <li><a href="#why-does-black-scholes-misprice-options" id="toc-why-does-black-scholes-misprice-options" class="nav-link" data-scroll-target="#why-does-black-scholes-misprice-options"><span class="header-section-number">5</span> Why Does Black-Scholes Misprice Options?</a>
   <ul class="collapse">
-  <li><a href="#summary-of-results" id="toc-summary-of-results" class="nav-link" data-scroll-target="#summary-of-results"><span class="header-section-number">5.1</span> Summary of Results</a></li>
-  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions"><span class="header-section-number">5.2</span> Conclusions</a>
+  <li><a href="#volatility-smile-effect" id="toc-volatility-smile-effect" class="nav-link" data-scroll-target="#volatility-smile-effect"><span class="header-section-number">5.1</span> 1. Volatility Smile Effect</a></li>
+  <li><a href="#pricing-error-vs-moneyness" id="toc-pricing-error-vs-moneyness" class="nav-link" data-scroll-target="#pricing-error-vs-moneyness"><span class="header-section-number">5.2</span> 2. Pricing Error vs Moneyness</a></li>
+  <li><a href="#key-reasons-for-mispricing" id="toc-key-reasons-for-mispricing" class="nav-link" data-scroll-target="#key-reasons-for-mispricing"><span class="header-section-number">5.3</span> 3. Key Reasons for Mispricing</a></li>
+  </ul></li>
+  <li><a href="#summary-and-conclusions" id="toc-summary-and-conclusions" class="nav-link" data-scroll-target="#summary-and-conclusions"><span class="header-section-number">6</span> Summary and Conclusions</a>
   <ul class="collapse">
-  <li><a href="#primary-findings" id="toc-primary-findings" class="nav-link" data-scroll-target="#primary-findings"><span class="header-section-number">5.2.1</span> Primary Findings</a></li>
-  <li><a href="#comparison-with-prior-research" id="toc-comparison-with-prior-research" class="nav-link" data-scroll-target="#comparison-with-prior-research"><span class="header-section-number">5.2.2</span> Comparison with Prior Research</a></li>
-  <li><a href="#possible-reasons-for-model-mispricing" id="toc-possible-reasons-for-model-mispricing" class="nav-link" data-scroll-target="#possible-reasons-for-model-mispricing"><span class="header-section-number">5.2.3</span> Possible Reasons for Model Mispricing</a></li>
+  <li><a href="#summary-of-results" id="toc-summary-of-results" class="nav-link" data-scroll-target="#summary-of-results"><span class="header-section-number">6.1</span> Summary of Results</a></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions"><span class="header-section-number">6.2</span> Conclusions</a>
+  <ul class="collapse">
+  <li><a href="#primary-findings" id="toc-primary-findings" class="nav-link" data-scroll-target="#primary-findings"><span class="header-section-number">6.2.1</span> Primary Findings</a></li>
+  <li><a href="#comparison-with-prior-research" id="toc-comparison-with-prior-research" class="nav-link" data-scroll-target="#comparison-with-prior-research"><span class="header-section-number">6.2.2</span> Comparison with Prior Research</a></li>
+  <li><a href="#possible-reasons-for-model-mispricing" id="toc-possible-reasons-for-model-mispricing" class="nav-link" data-scroll-target="#possible-reasons-for-model-mispricing"><span class="header-section-number">6.2.3</span> Possible Reasons for Model Mispricing</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#future-work" id="toc-future-work" class="nav-link" data-scroll-target="#future-work"><span class="header-section-number">6</span> Future Work</a>
+  <li><a href="#future-work" id="toc-future-work" class="nav-link" data-scroll-target="#future-work"><span class="header-section-number">7</span> Future Work</a>
   <ul class="collapse">
-  <li><a href="#alternative-pricing-models" id="toc-alternative-pricing-models" class="nav-link" data-scroll-target="#alternative-pricing-models"><span class="header-section-number">6.1</span> 1. Alternative Pricing Models</a></li>
-  <li><a href="#extended-empirical-analysis" id="toc-extended-empirical-analysis" class="nav-link" data-scroll-target="#extended-empirical-analysis"><span class="header-section-number">6.2</span> 2. Extended Empirical Analysis</a></li>
-  <li><a href="#machine-learning-approaches" id="toc-machine-learning-approaches" class="nav-link" data-scroll-target="#machine-learning-approaches"><span class="header-section-number">6.3</span> 3. Machine Learning Approaches</a></li>
-  <li><a href="#market-condition-analysis" id="toc-market-condition-analysis" class="nav-link" data-scroll-target="#market-condition-analysis"><span class="header-section-number">6.4</span> 4. Market Condition Analysis</a></li>
-  <li><a href="#practical-applications" id="toc-practical-applications" class="nav-link" data-scroll-target="#practical-applications"><span class="header-section-number">6.5</span> 5. Practical Applications</a></li>
+  <li><a href="#alternative-pricing-models" id="toc-alternative-pricing-models" class="nav-link" data-scroll-target="#alternative-pricing-models"><span class="header-section-number">7.1</span> 1. Alternative Pricing Models</a></li>
+  <li><a href="#extended-empirical-analysis" id="toc-extended-empirical-analysis" class="nav-link" data-scroll-target="#extended-empirical-analysis"><span class="header-section-number">7.2</span> 2. Extended Empirical Analysis</a></li>
+  <li><a href="#machine-learning-approaches" id="toc-machine-learning-approaches" class="nav-link" data-scroll-target="#machine-learning-approaches"><span class="header-section-number">7.3</span> 3. Machine Learning Approaches</a></li>
+  <li><a href="#market-condition-analysis" id="toc-market-condition-analysis" class="nav-link" data-scroll-target="#market-condition-analysis"><span class="header-section-number">7.4</span> 4. Market Condition Analysis</a></li>
+  <li><a href="#practical-applications" id="toc-practical-applications" class="nav-link" data-scroll-target="#practical-applications"><span class="header-section-number">7.5</span> 5. Practical Applications</a></li>
   </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7</span> References</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">8</span> References</a></li>
   </ul>
 </nav>
 </div>
@@ -206,7 +212,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 27, 2026</p>
+      <p class="date">January 28, 2026</p>
     </div>
   </div>
   
@@ -1201,48 +1207,309 @@ Figure&nbsp;7: Market Price vs Black-Scholes Price Scatter Plot
 </section>
 </section>
 </section>
-<section id="summary-and-conclusions" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Summary and Conclusions</h1>
-<section id="summary-of-results" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="summary-of-results"><span class="header-section-number">5.1</span> Summary of Results</h2>
-<div id="summary-table" class="cell" data-execution_count="14">
+<section id="why-does-black-scholes-misprice-options" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Why Does Black-Scholes Misprice Options?</h1>
+<p>The Black-Scholes model makes several simplifying assumptions that don’t hold in real markets. This section diagnoses the <strong>sources of mispricing</strong> in our data.</p>
+<section id="volatility-smile-effect" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="volatility-smile-effect"><span class="header-section-number">5.1</span> 1. Volatility Smile Effect</h2>
+<p>The BS model assumes <strong>constant volatility</strong> across all strikes. In reality, implied volatility varies with moneyness (the “volatility smile” or “skew”).</p>
+<div id="cell-fig-volatility-smile" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"SUMMARY OF PAIRED SAMPLE T-TEST RESULTS"</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>summary_data <span class="op">=</span> []</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ticker <span class="kw">in</span> stock_info[<span class="st">'ticker'</span>]:</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    call_row <span class="op">=</span> calls_ttest[calls_ttest[<span class="st">'ticker'</span>] <span class="op">==</span> ticker].iloc[<span class="dv">0</span>]</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    put_row <span class="op">=</span> puts_ttest[puts_ttest[<span class="st">'ticker'</span>] <span class="op">==</span> ticker].iloc[<span class="dv">0</span>]</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    summary_data.append({</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Ticker'</span>: ticker,</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Call p-value'</span>: call_row[<span class="st">'p_value'</span>],</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Call Sig?'</span>: call_row[<span class="st">'significant'</span>],</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Put p-value'</span>: put_row[<span class="st">'p_value'</span>],</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Put Sig?'</span>: put_row[<span class="st">'significant'</span>]</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>summary_df <span class="op">=</span> pd.DataFrame(summary_data)</span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> summary_df.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>call_not_sig <span class="op">=</span> (calls_ttest[<span class="st">'significant'</span>] <span class="op">==</span> <span class="st">'No'</span>).<span class="bu">sum</span>()</span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>put_not_sig <span class="op">=</span> (puts_ttest[<span class="st">'significant'</span>] <span class="op">==</span> <span class="st">'No'</span>).<span class="bu">sum</span>()</span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span>
-<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"STATISTICAL SUMMARY"</span>)</span>
-<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span>
-<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"""</span></span>
-<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="ss">CALL OPTIONS:</span></span>
-<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a><span class="ss">  • No significant difference: </span><span class="sc">{</span>call_not_sig<span class="sc">}</span><span class="ss"> out of </span><span class="sc">{</span><span class="bu">len</span>(calls_ttest)<span class="sc">}</span><span class="ss"> stocks (</span><span class="sc">{</span>call_not_sig<span class="op">/</span><span class="bu">len</span>(calls_ttest)<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%)</span></span>
-<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a><span class="ss">  • Significant difference: </span><span class="sc">{</span><span class="bu">len</span>(calls_ttest) <span class="op">-</span> call_not_sig<span class="sc">}</span><span class="ss"> out of </span><span class="sc">{</span><span class="bu">len</span>(calls_ttest)<span class="sc">}</span><span class="ss"> stocks (</span><span class="sc">{</span>(<span class="bu">len</span>(calls_ttest) <span class="op">-</span> call_not_sig)<span class="op">/</span><span class="bu">len</span>(calls_ttest)<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%)</span></span>
-<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a><span class="ss">PUT OPTIONS:</span></span>
-<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a><span class="ss">  • No significant difference: </span><span class="sc">{</span>put_not_sig<span class="sc">}</span><span class="ss"> out of </span><span class="sc">{</span><span class="bu">len</span>(puts_ttest)<span class="sc">}</span><span class="ss"> stocks (</span><span class="sc">{</span>put_not_sig<span class="op">/</span><span class="bu">len</span>(puts_ttest)<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%)</span></span>
-<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a><span class="ss">  • Significant difference: </span><span class="sc">{</span><span class="bu">len</span>(puts_ttest) <span class="op">-</span> put_not_sig<span class="sc">}</span><span class="ss"> out of </span><span class="sc">{</span><span class="bu">len</span>(puts_ttest)<span class="sc">}</span><span class="ss"> stocks (</span><span class="sc">{</span>(<span class="bu">len</span>(puts_ttest) <span class="op">-</span> put_not_sig)<span class="op">/</span><span class="bu">len</span>(puts_ttest)<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%)</span></span>
-<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">5</span>))</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate moneyness for each option</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ticker <span class="kw">in</span> stock_info[<span class="st">'ticker'</span>].unique():</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    spot <span class="op">=</span> stock_info[stock_info[<span class="st">'ticker'</span>] <span class="op">==</span> ticker][<span class="st">'spot_price'</span>].values[<span class="dv">0</span>]</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calls</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    mask_c <span class="op">=</span> calls_results[<span class="st">'ticker'</span>] <span class="op">==</span> ticker</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> mask_c.<span class="bu">sum</span>() <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        calls_results.loc[mask_c, <span class="st">'moneyness'</span>] <span class="op">=</span> calls_results.loc[mask_c, <span class="st">'strike'</span>] <span class="op">/</span> spot</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Puts</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    mask_p <span class="op">=</span> puts_results[<span class="st">'ticker'</span>] <span class="op">==</span> ticker</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> mask_p.<span class="bu">sum</span>() <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        puts_results.loc[mask_p, <span class="st">'moneyness'</span>] <span class="op">=</span> puts_results.loc[mask_p, <span class="st">'strike'</span>] <span class="op">/</span> spot</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot volatility smile for calls</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> axes[<span class="dv">0</span>]</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ticker <span class="kw">in</span> calls_results[<span class="st">'ticker'</span>].unique():</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> calls_results[calls_results[<span class="st">'ticker'</span>] <span class="op">==</span> ticker]</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    ax1.scatter(data[<span class="st">'moneyness'</span>], data[<span class="st">'sigma'</span>], alpha<span class="op">=</span><span class="fl">0.6</span>, label<span class="op">=</span>ticker, s<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>ax1.axvline(x<span class="op">=</span><span class="fl">1.0</span>, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">'ATM (K=S)'</span>)</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">'Moneyness (K/S)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">'Implied Volatility'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">'Call Options: Volatility Smile'</span>, fontsize<span class="op">=</span><span class="dv">13</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>ax1.legend(loc<span class="op">=</span><span class="st">'upper right'</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>ax1.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot volatility smile for puts</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> axes[<span class="dv">1</span>]</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ticker <span class="kw">in</span> puts_results[<span class="st">'ticker'</span>].unique():</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> puts_results[puts_results[<span class="st">'ticker'</span>] <span class="op">==</span> ticker]</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>    ax2.scatter(data[<span class="st">'moneyness'</span>], data[<span class="st">'sigma'</span>], alpha<span class="op">=</span><span class="fl">0.6</span>, label<span class="op">=</span>ticker, s<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>ax2.axvline(x<span class="op">=</span><span class="fl">1.0</span>, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">'ATM (K=S)'</span>)</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">'Moneyness (K/S)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">'Implied Volatility'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">'Put Options: Volatility Smile'</span>, fontsize<span class="op">=</span><span class="dv">13</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>ax2.legend(loc<span class="op">=</span><span class="st">'upper right'</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>ax2.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">📊 VOLATILITY SMILE ANALYSIS:"</span>)</span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"If you see a U-shape or skew pattern, that's the volatility smile/skew."</span>)</span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"BS assumes FLAT volatility, so it misprices OTM and ITM options."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-volatility-smile" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-volatility-smile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-volatility-smile-output-1.png" width="1332" height="468" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-volatility-smile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Implied Volatility vs Moneyness (Volatility Smile)
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+📊 VOLATILITY SMILE ANALYSIS:
+If you see a U-shape or skew pattern, that's the volatility smile/skew.
+BS assumes FLAT volatility, so it misprices OTM and ITM options.</code></pre>
+</div>
+</div>
+</section>
+<section id="pricing-error-vs-moneyness" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="pricing-error-vs-moneyness"><span class="header-section-number">5.2</span> 2. Pricing Error vs Moneyness</h2>
+<p>Deep ITM and OTM options typically have larger pricing errors because the volatility smile effect is strongest there.</p>
+<div id="cell-fig-error-vs-moneyness" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">5</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calls</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> axes[<span class="dv">0</span>]</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>ax1.scatter(calls_results[<span class="st">'moneyness'</span>], calls_results[<span class="st">'error'</span>], alpha<span class="op">=</span><span class="fl">0.5</span>, c<span class="op">=</span><span class="st">'blue'</span>, s<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>ax1.axhline(y<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>ax1.axvline(x<span class="op">=</span><span class="fl">1.0</span>, color<span class="op">=</span><span class="st">'green'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">'Moneyness (K/S)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">'Pricing Error ($)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">'Calls: Error vs Moneyness'</span>, fontsize<span class="op">=</span><span class="dv">13</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>ax1.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Puts</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> axes[<span class="dv">1</span>]</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>ax2.scatter(puts_results[<span class="st">'moneyness'</span>], puts_results[<span class="st">'error'</span>], alpha<span class="op">=</span><span class="fl">0.5</span>, c<span class="op">=</span><span class="st">'red'</span>, s<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>ax2.axhline(y<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>ax2.axvline(x<span class="op">=</span><span class="fl">1.0</span>, color<span class="op">=</span><span class="st">'green'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">'Moneyness (K/S)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">'Pricing Error ($)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">'Puts: Error vs Moneyness'</span>, fontsize<span class="op">=</span><span class="dv">13</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>ax2.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate error by moneyness bucket</span></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">📊 PRICING ERROR BY MONEYNESS BUCKET:"</span>)</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> categorize_moneyness(m):</span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> m <span class="op">&lt;</span> <span class="fl">0.90</span>: <span class="cf">return</span> <span class="st">'Deep ITM (&lt;0.90)'</span></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> m <span class="op">&lt;</span> <span class="fl">0.97</span>: <span class="cf">return</span> <span class="st">'ITM (0.90-0.97)'</span></span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> m <span class="op">&lt;=</span> <span class="fl">1.03</span>: <span class="cf">return</span> <span class="st">'ATM (0.97-1.03)'</span></span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> m <span class="op">&lt;=</span> <span class="fl">1.10</span>: <span class="cf">return</span> <span class="st">'OTM (1.03-1.10)'</span></span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>: <span class="cf">return</span> <span class="st">'Deep OTM (&gt;1.10)'</span></span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>calls_results[<span class="st">'money_cat'</span>] <span class="op">=</span> calls_results[<span class="st">'moneyness'</span>].<span class="bu">apply</span>(categorize_moneyness)</span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>puts_results[<span class="st">'money_cat'</span>] <span class="op">=</span> puts_results[<span class="st">'moneyness'</span>].<span class="bu">apply</span>(categorize_moneyness)</span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">CALL OPTIONS:"</span>)</span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>call_summary <span class="op">=</span> calls_results.groupby(<span class="st">'money_cat'</span>)[<span class="st">'error'</span>].agg([<span class="st">'count'</span>, <span class="st">'mean'</span>, <span class="st">'std'</span>]).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(call_summary)</span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">PUT OPTIONS:"</span>)</span>
+<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a>put_summary <span class="op">=</span> puts_results.groupby(<span class="st">'money_cat'</span>)[<span class="st">'error'</span>].agg([<span class="st">'count'</span>, <span class="st">'mean'</span>, <span class="st">'std'</span>]).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(put_summary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-error-vs-moneyness" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-error-vs-moneyness-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-error-vs-moneyness-output-1.png" width="1332" height="468" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-error-vs-moneyness-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Pricing Error vs Moneyness
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+📊 PRICING ERROR BY MONEYNESS BUCKET:
+============================================================
+
+CALL OPTIONS:
+                  count   mean    std
+money_cat                            
+ATM (0.97-1.03)      35   7.81   6.59
+Deep ITM (&lt;0.90)     71  19.14  21.87
+Deep OTM (&gt;1.10)    118   0.46   0.76
+ITM (0.90-0.97)      41  15.32  12.07
+OTM (1.03-1.10)      43   3.15   3.24
+
+PUT OPTIONS:
+                  count   mean    std
+money_cat                            
+ATM (0.97-1.03)      35 -18.00  17.14
+Deep ITM (&lt;0.90)    109  -1.69   4.80
+Deep OTM (&gt;1.10)     24 -22.96  23.60
+ITM (0.90-0.97)      42 -10.23  13.82
+OTM (1.03-1.10)      35 -22.19  19.29</code></pre>
+</div>
+</div>
+</section>
+<section id="key-reasons-for-mispricing" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="key-reasons-for-mispricing"><span class="header-section-number">5.3</span> 3. Key Reasons for Mispricing</h2>
+<div id="mispricing-reasons" class="cell" data-execution_count="16">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"WHY BLACK-SCHOLES MISPRICES OPTIONS"</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate some diagnostics</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>avg_call_error <span class="op">=</span> calls_results[<span class="st">'error'</span>].mean()</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>avg_put_error <span class="op">=</span> puts_results[<span class="st">'error'</span>].mean()</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>call_overpriced <span class="op">=</span> (calls_results[<span class="st">'error'</span>] <span class="op">&gt;</span> <span class="dv">0</span>).<span class="bu">sum</span>() <span class="op">/</span> <span class="bu">len</span>(calls_results) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>put_overpriced <span class="op">=</span> (puts_results[<span class="st">'error'</span>] <span class="op">&gt;</span> <span class="dv">0</span>).<span class="bu">sum</span>() <span class="op">/</span> <span class="bu">len</span>(puts_results) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"""</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="ss">📌 DIAGNOSTIC SUMMARY:</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="ss">   • Average Call Error: $</span><span class="sc">{</span>avg_call_error<span class="sc">:.2f}</span><span class="ss"> (BS </span><span class="sc">{</span><span class="st">'overprices'</span> <span class="cf">if</span> avg_call_error <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">'underprices'</span><span class="sc">}</span><span class="ss">)</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="ss">   • Average Put Error:  $</span><span class="sc">{</span>avg_put_error<span class="sc">:.2f}</span><span class="ss"> (BS </span><span class="sc">{</span><span class="st">'overprices'</span> <span class="cf">if</span> avg_put_error <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">'underprices'</span><span class="sc">}</span><span class="ss">)</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="ss">   • Call options overpriced by BS: </span><span class="sc">{</span>call_overpriced<span class="sc">:.1f}</span><span class="ss">%</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="ss">   • Put options overpriced by BS:  </span><span class="sc">{</span>put_overpriced<span class="sc">:.1f}</span><span class="ss">%</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="ss">🔍 SOURCES OF MISPRICING:</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="ss">1. VOLATILITY SMILE/SKEW</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="ss">   • BS assumes constant volatility across all strikes</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="ss">   • Market IV is higher for OTM puts (crash protection premium)</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="ss">   • This causes systematic underpricing of OTM puts by BS</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="ss">2. DIVIDEND YIELD ESTIMATION  </span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="ss">   • BS uses continuous dividend yield approximation</span></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a><span class="ss">   • Real dividend timing affects option values</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a><span class="ss">   • High dividend stocks (like PFE at 6.65%) show larger errors</span></span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a><span class="ss">3. AMERICAN vs EUROPEAN OPTIONS</span></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="ss">   • Our BS formula is for European options</span></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a><span class="ss">   • US equity options are American-style (early exercise allowed)</span></span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a><span class="ss">   • American puts are worth MORE than European puts (early exercise value)</span></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a><span class="ss">   • This causes BS to UNDERPRICE put options</span></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a><span class="ss">4. MARKET MICROSTRUCTURE</span></span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a><span class="ss">   • Bid-ask spreads cause deviation from theoretical prices</span></span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a><span class="ss">   • Low volume options have stale/unreliable prices</span></span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a><span class="ss">   • Market makers add risk premiums</span></span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a><span class="ss">5. JUMP RISK / FAT TAILS</span></span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a><span class="ss">   • BS assumes log-normal returns (no jumps)</span></span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a><span class="ss">   • Real markets have crash risk (fat tails)</span></span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a><span class="ss">   • OTM puts are priced higher due to crash protection</span></span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>======================================================================
+WHY BLACK-SCHOLES MISPRICES OPTIONS
+======================================================================
+
+📌 DIAGNOSTIC SUMMARY:
+   • Average Call Error: $7.96 (BS overprices)
+   • Average Put Error:  $-10.50 (BS underprices)
+   • Call options overpriced by BS: 97.4%
+   • Put options overpriced by BS:  39.6%
+
+🔍 SOURCES OF MISPRICING:
+
+1. VOLATILITY SMILE/SKEW
+   • BS assumes constant volatility across all strikes
+   • Market IV is higher for OTM puts (crash protection premium)
+   • This causes systematic underpricing of OTM puts by BS
+
+2. DIVIDEND YIELD ESTIMATION  
+   • BS uses continuous dividend yield approximation
+   • Real dividend timing affects option values
+   • High dividend stocks (like PFE at 6.65%) show larger errors
+
+3. AMERICAN vs EUROPEAN OPTIONS
+   • Our BS formula is for European options
+   • US equity options are American-style (early exercise allowed)
+   • American puts are worth MORE than European puts (early exercise value)
+   • This causes BS to UNDERPRICE put options
+
+4. MARKET MICROSTRUCTURE
+   • Bid-ask spreads cause deviation from theoretical prices
+   • Low volume options have stale/unreliable prices
+   • Market makers add risk premiums
+
+5. JUMP RISK / FAT TAILS
+   • BS assumes log-normal returns (no jumps)
+   • Real markets have crash risk (fat tails)
+   • OTM puts are priced higher due to crash protection
+</code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="summary-and-conclusions" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Summary and Conclusions</h1>
+<section id="summary-of-results" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="summary-of-results"><span class="header-section-number">6.1</span> Summary of Results</h2>
+<div id="summary-table" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"SUMMARY OF PAIRED SAMPLE T-TEST RESULTS"</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>summary_data <span class="op">=</span> []</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ticker <span class="kw">in</span> stock_info[<span class="st">'ticker'</span>]:</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    call_row <span class="op">=</span> calls_ttest[calls_ttest[<span class="st">'ticker'</span>] <span class="op">==</span> ticker].iloc[<span class="dv">0</span>]</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    put_row <span class="op">=</span> puts_ttest[puts_ttest[<span class="st">'ticker'</span>] <span class="op">==</span> ticker].iloc[<span class="dv">0</span>]</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    summary_data.append({</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Ticker'</span>: ticker,</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Call p-value'</span>: call_row[<span class="st">'p_value'</span>],</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Call Sig?'</span>: call_row[<span class="st">'significant'</span>],</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Put p-value'</span>: put_row[<span class="st">'p_value'</span>],</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Put Sig?'</span>: put_row[<span class="st">'significant'</span>]</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>summary_df <span class="op">=</span> pd.DataFrame(summary_data)</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> summary_df.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>call_not_sig <span class="op">=</span> (calls_ttest[<span class="st">'significant'</span>] <span class="op">==</span> <span class="st">'No'</span>).<span class="bu">sum</span>()</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>put_not_sig <span class="op">=</span> (puts_ttest[<span class="st">'significant'</span>] <span class="op">==</span> <span class="st">'No'</span>).<span class="bu">sum</span>()</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"STATISTICAL SUMMARY"</span>)</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"""</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a><span class="ss">CALL OPTIONS:</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a><span class="ss">  • No significant difference: </span><span class="sc">{</span>call_not_sig<span class="sc">}</span><span class="ss"> out of </span><span class="sc">{</span><span class="bu">len</span>(calls_ttest)<span class="sc">}</span><span class="ss"> stocks (</span><span class="sc">{</span>call_not_sig<span class="op">/</span><span class="bu">len</span>(calls_ttest)<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%)</span></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="ss">  • Significant difference: </span><span class="sc">{</span><span class="bu">len</span>(calls_ttest) <span class="op">-</span> call_not_sig<span class="sc">}</span><span class="ss"> out of </span><span class="sc">{</span><span class="bu">len</span>(calls_ttest)<span class="sc">}</span><span class="ss"> stocks (</span><span class="sc">{</span>(<span class="bu">len</span>(calls_ttest) <span class="op">-</span> call_not_sig)<span class="op">/</span><span class="bu">len</span>(calls_ttest)<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%)</span></span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a><span class="ss">PUT OPTIONS:</span></span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a><span class="ss">  • No significant difference: </span><span class="sc">{</span>put_not_sig<span class="sc">}</span><span class="ss"> out of </span><span class="sc">{</span><span class="bu">len</span>(puts_ttest)<span class="sc">}</span><span class="ss"> stocks (</span><span class="sc">{</span>put_not_sig<span class="op">/</span><span class="bu">len</span>(puts_ttest)<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%)</span></span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a><span class="ss">  • Significant difference: </span><span class="sc">{</span><span class="bu">len</span>(puts_ttest) <span class="op">-</span> put_not_sig<span class="sc">}</span><span class="ss"> out of </span><span class="sc">{</span><span class="bu">len</span>(puts_ttest)<span class="sc">}</span><span class="ss"> stocks (</span><span class="sc">{</span>(<span class="bu">len</span>(puts_ttest) <span class="op">-</span> put_not_sig)<span class="op">/</span><span class="bu">len</span>(puts_ttest)<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%)</span></span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>================================================================================
@@ -1275,11 +1542,11 @@ PUT OPTIONS:
 </div>
 </div>
 </section>
-<section id="conclusions" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="conclusions"><span class="header-section-number">5.2</span> Conclusions</h2>
+<section id="conclusions" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="conclusions"><span class="header-section-number">6.2</span> Conclusions</h2>
 <p>Based on the comprehensive empirical analysis using paired sample t-tests on nine stocks across three sectors (Financial, Healthcare, and Technology), this study reaches the following conclusions:</p>
-<section id="primary-findings" class="level3" data-number="5.2.1">
-<h3 data-number="5.2.1" class="anchored" data-anchor-id="primary-findings"><span class="header-section-number">5.2.1</span> Primary Findings</h3>
+<section id="primary-findings" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="primary-findings"><span class="header-section-number">6.2.1</span> Primary Findings</h3>
 <ol type="1">
 <li><p><strong>Call Options:</strong> The Black-Scholes model shows <strong>statistically significant pricing differences</strong> from market prices for <strong>all nine stocks</strong> (100%). The model consistently <strong>underprices</strong> call options, with mean errors ranging from $1.22 (NVDA) to $24.26 (UNH). Therefore, the Black-Scholes model <strong>cannot be reliably used</strong> to price call options in the current U.S. stock market.</p></li>
 <li><p><strong>Put Options:</strong> The Black-Scholes model shows significant pricing differences for <strong>eight out of nine stocks</strong> (89%). Only <strong>AAPL</strong> (p = 0.5261) showed no significant difference. The model consistently <strong>overprices</strong> put options, with mean errors ranging from -$0.34 (AAPL) to -$28.81 (UNH). Therefore, the Black-Scholes model is <strong>not suitable</strong> for pricing put options, except potentially for certain Technology stocks like AAPL.</p></li>
@@ -1291,8 +1558,8 @@ PUT OPTIONS:
 </ul></li>
 </ol>
 </section>
-<section id="comparison-with-prior-research" class="level3" data-number="5.2.2">
-<h3 data-number="5.2.2" class="anchored" data-anchor-id="comparison-with-prior-research"><span class="header-section-number">5.2.2</span> Comparison with Prior Research</h3>
+<section id="comparison-with-prior-research" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="comparison-with-prior-research"><span class="header-section-number">6.2.2</span> Comparison with Prior Research</h3>
 <p>Our findings <strong>contrast</strong> with Salami (2024), who found that the Black-Scholes model works better for call options (7 out of 9 stocks) than put options (4 out of 9 stocks). Our analysis shows:</p>
 <ul>
 <li><strong>Calls</strong>: 0 out of 9 stocks show no significant difference (vs.&nbsp;7/9 in Salami 2024)</li>
@@ -1305,8 +1572,8 @@ PUT OPTIONS:
 <li><strong>Economic factors</strong>: Interest rate environment, inflation expectations, and market sentiment have changed significantly</li>
 </ol>
 </section>
-<section id="possible-reasons-for-model-mispricing" class="level3" data-number="5.2.3">
-<h3 data-number="5.2.3" class="anchored" data-anchor-id="possible-reasons-for-model-mispricing"><span class="header-section-number">5.2.3</span> Possible Reasons for Model Mispricing</h3>
+<section id="possible-reasons-for-model-mispricing" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="possible-reasons-for-model-mispricing"><span class="header-section-number">6.2.3</span> Possible Reasons for Model Mispricing</h3>
 <p>The systematic mispricing observed can be attributed to violations of Black-Scholes assumptions:</p>
 <ol type="1">
 <li><strong>Volatility is not constant</strong>: The volatility smile/skew observed in options markets contradicts the constant volatility assumption</li>
@@ -1319,11 +1586,11 @@ PUT OPTIONS:
 </section>
 </section>
 </section>
-<section id="future-work" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Future Work</h1>
+<section id="future-work" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Future Work</h1>
 <p>Based on the findings and limitations of this study, several directions for future research are recommended:</p>
-<section id="alternative-pricing-models" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="alternative-pricing-models"><span class="header-section-number">6.1</span> 1. Alternative Pricing Models</h2>
+<section id="alternative-pricing-models" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="alternative-pricing-models"><span class="header-section-number">7.1</span> 1. Alternative Pricing Models</h2>
 <ul>
 <li><strong>Heston Stochastic Volatility Model</strong>: Incorporate stochastic volatility to address the volatility smile</li>
 <li><strong>SABR Model</strong>: Consider the SABR (Stochastic Alpha, Beta, Rho) model for interest rate derivatives</li>
@@ -1331,8 +1598,8 @@ PUT OPTIONS:
 <li><strong>Local Volatility Models</strong>: Use Dupire’s local volatility framework</li>
 </ul>
 </section>
-<section id="extended-empirical-analysis" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="extended-empirical-analysis"><span class="header-section-number">6.2</span> 2. Extended Empirical Analysis</h2>
+<section id="extended-empirical-analysis" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="extended-empirical-analysis"><span class="header-section-number">7.2</span> 2. Extended Empirical Analysis</h2>
 <ul>
 <li><strong>Longer Time Period</strong>: Conduct analysis over multiple years to assess model performance across different market cycles</li>
 <li><strong>More Stocks</strong>: Expand the sample to include mid-cap and small-cap stocks</li>
@@ -1340,24 +1607,24 @@ PUT OPTIONS:
 <li><strong>Different Asset Classes</strong>: Test the model on index options, ETF options, and commodity options</li>
 </ul>
 </section>
-<section id="machine-learning-approaches" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="machine-learning-approaches"><span class="header-section-number">6.3</span> 3. Machine Learning Approaches</h2>
+<section id="machine-learning-approaches" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="machine-learning-approaches"><span class="header-section-number">7.3</span> 3. Machine Learning Approaches</h2>
 <ul>
 <li><strong>Neural Network Pricing</strong>: Develop deep learning models for option pricing</li>
 <li><strong>Ensemble Methods</strong>: Combine multiple models to improve pricing accuracy</li>
 <li><strong>Feature Engineering</strong>: Incorporate additional market factors (sentiment, order flow, macroeconomic indicators)</li>
 </ul>
 </section>
-<section id="market-condition-analysis" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="market-condition-analysis"><span class="header-section-number">6.4</span> 4. Market Condition Analysis</h2>
+<section id="market-condition-analysis" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="market-condition-analysis"><span class="header-section-number">7.4</span> 4. Market Condition Analysis</h2>
 <ul>
 <li><strong>Crisis Periods</strong>: Study model performance during market stress (COVID-19, 2008 financial crisis)</li>
 <li><strong>Volatility Regimes</strong>: Analyze pricing accuracy in high vs.&nbsp;low volatility environments</li>
 <li><strong>Interest Rate Environments</strong>: Compare results across different monetary policy regimes</li>
 </ul>
 </section>
-<section id="practical-applications" class="level2" data-number="6.5">
-<h2 data-number="6.5" class="anchored" data-anchor-id="practical-applications"><span class="header-section-number">6.5</span> 5. Practical Applications</h2>
+<section id="practical-applications" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="practical-applications"><span class="header-section-number">7.5</span> 5. Practical Applications</h2>
 <ul>
 <li><strong>Trading Strategy Development</strong>: Develop strategies that exploit systematic mispricing</li>
 <li><strong>Risk Management</strong>: Quantify the impact of model error on hedging effectiveness</li>
@@ -1366,8 +1633,8 @@ PUT OPTIONS:
 <hr>
 </section>
 </section>
-<section id="references" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> References</h1>
+<section id="references" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> References</h1>
 <ol type="1">
 <li><p>Black, F., &amp; Scholes, M. (1973). The pricing of options and corporate liabilities. <em>Journal of Political Economy</em>, 81(3), 637-654.</p></li>
 <li><p>Merton, R. C. (1973). Theory of rational option pricing. <em>Bell Journal of Economics and Management Science</em>, 4(1), 141-183.</p></li>

@@ -877,6 +877,179 @@ The scatter plots provide a visual assessment of how well Black-Scholes prices m
 
 ---
 
+# Why Does Black-Scholes Misprice Options?
+
+The Black-Scholes model makes several simplifying assumptions that don't hold in real markets. This section diagnoses the **sources of mispricing** in our data.
+
+## 1. Volatility Smile Effect
+
+The BS model assumes **constant volatility** across all strikes. In reality, implied volatility varies with moneyness (the "volatility smile" or "skew").
+
+```{python}
+#| label: fig-volatility-smile
+#| fig-cap: "Implied Volatility vs Moneyness (Volatility Smile)"
+#| echo: true
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# Calculate moneyness for each option
+for ticker in stock_info['ticker'].unique():
+    spot = stock_info[stock_info['ticker'] == ticker]['spot_price'].values[0]
+    
+    # Calls
+    mask_c = calls_results['ticker'] == ticker
+    if mask_c.sum() > 0:
+        calls_results.loc[mask_c, 'moneyness'] = calls_results.loc[mask_c, 'strike'] / spot
+    
+    # Puts
+    mask_p = puts_results['ticker'] == ticker
+    if mask_p.sum() > 0:
+        puts_results.loc[mask_p, 'moneyness'] = puts_results.loc[mask_p, 'strike'] / spot
+
+# Plot volatility smile for calls
+ax1 = axes[0]
+for ticker in calls_results['ticker'].unique():
+    data = calls_results[calls_results['ticker'] == ticker]
+    ax1.scatter(data['moneyness'], data['sigma'], alpha=0.6, label=ticker, s=30)
+ax1.axvline(x=1.0, color='red', linestyle='--', alpha=0.5, label='ATM (K=S)')
+ax1.set_xlabel('Moneyness (K/S)', fontsize=11)
+ax1.set_ylabel('Implied Volatility', fontsize=11)
+ax1.set_title('Call Options: Volatility Smile', fontsize=13, fontweight='bold')
+ax1.legend(loc='upper right', fontsize=8)
+ax1.grid(True, alpha=0.3)
+
+# Plot volatility smile for puts
+ax2 = axes[1]
+for ticker in puts_results['ticker'].unique():
+    data = puts_results[puts_results['ticker'] == ticker]
+    ax2.scatter(data['moneyness'], data['sigma'], alpha=0.6, label=ticker, s=30)
+ax2.axvline(x=1.0, color='red', linestyle='--', alpha=0.5, label='ATM (K=S)')
+ax2.set_xlabel('Moneyness (K/S)', fontsize=11)
+ax2.set_ylabel('Implied Volatility', fontsize=11)
+ax2.set_title('Put Options: Volatility Smile', fontsize=13, fontweight='bold')
+ax2.legend(loc='upper right', fontsize=8)
+ax2.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+print("\n📊 VOLATILITY SMILE ANALYSIS:")
+print("If you see a U-shape or skew pattern, that's the volatility smile/skew.")
+print("BS assumes FLAT volatility, so it misprices OTM and ITM options.")
+```
+
+## 2. Pricing Error vs Moneyness
+
+Deep ITM and OTM options typically have larger pricing errors because the volatility smile effect is strongest there.
+
+```{python}
+#| label: fig-error-vs-moneyness
+#| fig-cap: "Pricing Error vs Moneyness"
+#| echo: true
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# Calls
+ax1 = axes[0]
+ax1.scatter(calls_results['moneyness'], calls_results['error'], alpha=0.5, c='blue', s=30)
+ax1.axhline(y=0, color='red', linestyle='--', alpha=0.7)
+ax1.axvline(x=1.0, color='green', linestyle='--', alpha=0.5)
+ax1.set_xlabel('Moneyness (K/S)', fontsize=11)
+ax1.set_ylabel('Pricing Error ($)', fontsize=11)
+ax1.set_title('Calls: Error vs Moneyness', fontsize=13, fontweight='bold')
+ax1.grid(True, alpha=0.3)
+
+# Puts
+ax2 = axes[1]
+ax2.scatter(puts_results['moneyness'], puts_results['error'], alpha=0.5, c='red', s=30)
+ax2.axhline(y=0, color='red', linestyle='--', alpha=0.7)
+ax2.axvline(x=1.0, color='green', linestyle='--', alpha=0.5)
+ax2.set_xlabel('Moneyness (K/S)', fontsize=11)
+ax2.set_ylabel('Pricing Error ($)', fontsize=11)
+ax2.set_title('Puts: Error vs Moneyness', fontsize=13, fontweight='bold')
+ax2.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# Calculate error by moneyness bucket
+print("\n📊 PRICING ERROR BY MONEYNESS BUCKET:")
+print("=" * 60)
+
+def categorize_moneyness(m):
+    if m < 0.90: return 'Deep ITM (<0.90)'
+    elif m < 0.97: return 'ITM (0.90-0.97)'
+    elif m <= 1.03: return 'ATM (0.97-1.03)'
+    elif m <= 1.10: return 'OTM (1.03-1.10)'
+    else: return 'Deep OTM (>1.10)'
+
+calls_results['money_cat'] = calls_results['moneyness'].apply(categorize_moneyness)
+puts_results['money_cat'] = puts_results['moneyness'].apply(categorize_moneyness)
+
+print("\nCALL OPTIONS:")
+call_summary = calls_results.groupby('money_cat')['error'].agg(['count', 'mean', 'std']).round(2)
+print(call_summary)
+
+print("\nPUT OPTIONS:")
+put_summary = puts_results.groupby('money_cat')['error'].agg(['count', 'mean', 'std']).round(2)
+print(put_summary)
+```
+
+## 3. Key Reasons for Mispricing
+
+```{python}
+#| label: mispricing-reasons
+#| echo: true
+
+print("=" * 70)
+print("WHY BLACK-SCHOLES MISPRICES OPTIONS")
+print("=" * 70)
+
+# Calculate some diagnostics
+avg_call_error = calls_results['error'].mean()
+avg_put_error = puts_results['error'].mean()
+call_overpriced = (calls_results['error'] > 0).sum() / len(calls_results) * 100
+put_overpriced = (puts_results['error'] > 0).sum() / len(puts_results) * 100
+
+print(f"""
+📌 DIAGNOSTIC SUMMARY:
+   • Average Call Error: ${avg_call_error:.2f} (BS {'overprices' if avg_call_error > 0 else 'underprices'})
+   • Average Put Error:  ${avg_put_error:.2f} (BS {'overprices' if avg_put_error > 0 else 'underprices'})
+   • Call options overpriced by BS: {call_overpriced:.1f}%
+   • Put options overpriced by BS:  {put_overpriced:.1f}%
+
+🔍 SOURCES OF MISPRICING:
+
+1. VOLATILITY SMILE/SKEW
+   • BS assumes constant volatility across all strikes
+   • Market IV is higher for OTM puts (crash protection premium)
+   • This causes systematic underpricing of OTM puts by BS
+
+2. DIVIDEND YIELD ESTIMATION  
+   • BS uses continuous dividend yield approximation
+   • Real dividend timing affects option values
+   • High dividend stocks (like PFE at 6.65%) show larger errors
+
+3. AMERICAN vs EUROPEAN OPTIONS
+   • Our BS formula is for European options
+   • US equity options are American-style (early exercise allowed)
+   • American puts are worth MORE than European puts (early exercise value)
+   • This causes BS to UNDERPRICE put options
+
+4. MARKET MICROSTRUCTURE
+   • Bid-ask spreads cause deviation from theoretical prices
+   • Low volume options have stale/unreliable prices
+   • Market makers add risk premiums
+
+5. JUMP RISK / FAT TAILS
+   • BS assumes log-normal returns (no jumps)
+   • Real markets have crash risk (fat tails)
+   • OTM puts are priced higher due to crash protection
+""")
+```
+
+---
+
 # Summary and Conclusions
 
 ## Summary of Results
